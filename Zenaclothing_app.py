@@ -1,13 +1,33 @@
 # Import python packages
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col
 import pandas as pd
 
+# Try to get an active Snowflake session (works only inside Snowflake)
+try:
+    from snowflake.snowpark.context import get_active_session
+    session = get_active_session()
+except:
+    from snowflake.snowpark import Session
+
+    # Manually create a Snowflake session for external environments
+    connection_parameters = {
+        "account": "VRHATXJ-QBB31988",
+        "user": "HEMAVATHI",
+        "password": "Hemah#2303hema",
+        "role": "SYSADMIN",
+        "warehouse": "COMPUTE_WH",
+        "database": "ZENAS_ATHLEISURE_DB",
+        "schema": "PRODUCTS"
+    }
+    
+    session = Session.builder.configs(connection_parameters).create()
+
+# Test the session
+st.write("Snowflake session initialized successfully!")
 
 st.title("Zena's Amasing Athleisure Catalog")
 
-session = get_active_session()
 
 # get a list of colors for a drop list selection
 table_colors = session.sql("select color_or_style from catalog_for_website")

@@ -1,26 +1,7 @@
 # Import python packages
 import streamlit as st
+from snowflake.snowpark.context import get_active_session
 import pandas as pd
-
-# Try to get an active Snowflake session (works inside Snowflake)
-try:
-    from snowflake.snowpark.context import get_active_session
-    session = get_active_session()
-except ImportError:
-    from snowflake.snowpark import Session
-
-    # Manually create a Snowflake session for external environments
-    connection_parameters = {
-        "account": "VRHATXJ-QBB31988",
-        "user": "Hemavathi",
-        "password": "Hemah#2303hema",
-        "role": "SYSADMIN",
-        "warehouse": "COMPUTE_WH",
-        "database": "ZENAS_ATHLEISURE_DB",
-        "schema": "PRODUCTS"
-    }
-    
-    session = Session.builder.configs(connection_parameters).create()
 
 st.title("Zena's Amasing Athleisure Catalog")
 
